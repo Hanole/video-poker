@@ -9,6 +9,10 @@ const activePlayerId = useGameStore((state) => state.activePlayerId);
 const createPlayer = useGameStore((state) => state.createPlayer);
 const selectPlayer = useGameStore((state) => state.selectPlayer);
 
+const activePlayer = players.find(
+    (player) => player.id === activePlayerId
+);
+
 function handleCreatePlayer(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const trimmedName = name.trim();
@@ -23,7 +27,12 @@ function handleCreatePlayer(event: React.FormEvent<HTMLFormElement>) {
 
     return (
         <main>
-            <h1>Velg spiller</h1>
+            <h1>Spillbrukere</h1>
+            {activePlayer ? (
+                <p>Aktiv spiller: {activePlayer.name} ({activePlayer.coins} coins)</p>
+            ) : (
+                <p>Velg en eksisterende spiller eller opprett en nyn spiller.</p>
+            )}
             <form onSubmit={handleCreatePlayer}>
                 <label htmlFor="player-name">Navn på ny spiller</label>
                 <input id="player-name" type="text" value={name} onChange={(event) => setName(event.target.value)} />
