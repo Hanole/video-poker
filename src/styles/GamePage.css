@@ -1,0 +1,63 @@
+.game-page-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    justify-content: center;
+    text-align: center;
+    background-color: beige;
+}
+
+.game-page-div {
+    grid-column-start: 3;
+}
+
+.hand-container {
+    list-style-type: none;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    gap: 1rem;
+    text-align: center;
+}
+
+.payout-section {
+  width: min(100%, 420px);
+  margin: 24px auto;
+  padding: 20px;
+  border: 1px solid #d4af37;
+  border-radius: 12px;
+  background: #444444;
+  color: #f8f8f8;
+}
+
+.payout-section h3 {
+  margin: 0 0 1rem;
+  text-align: center;
+}
+
+.payout-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.payout-table th,
+.payout-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #777676;
+}
+
+.payout-table th:last-child,
+.payout-table td:last-child {
+  text-align: right;
+}
+
+.payout-table th {
+  color: #ff0000;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
+
+.payout-table tbody tr:hover {
+  background: rgba(252, 122, 41, 0.25);
+}
