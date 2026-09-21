@@ -1,6 +1,14 @@
 import { useGameStore } from "../store/useGameStore";
 import "./../styles/GamePage.css";
 import { PayoutTable } from "../components/PayoutTable";
+import { Link } from "react-router";
+
+const suitSymbols = {
+  hearts: "♥",
+  diamonds: "♦",
+  clubs: "♣",
+  spades: "♠",
+};
 
 export default function GamePage() {
   const startRound = useGameStore((state) => state.startRound);
@@ -14,6 +22,7 @@ export default function GamePage() {
   const hasDrawn = useGameStore((state) => state.hasDrawn);
   const handResult = useGameStore((state) => state.handResult);
   const players = useGameStore((state) => state.players);
+  const selectPlayer = useGameStore((state) => state.selectPlayer);
   const activePlayerId = useGameStore((state) => state.activePlayerId);
   const betAmount = useGameStore((state) => state.betAmount);
   const setBetAmount = useGameStore((state) => state.setBetAmount);
@@ -29,38 +38,62 @@ export default function GamePage() {
     <div className="game-page-container">
       <div className="game-page-div">
         <h2>Video-poker</h2>
-        {activePlayer && <PayoutTable betAmount={betAmount} />}
         {activePlayer ? (
           <>
-            <p>Spiller: {activePlayer.name}</p>
-            <p>Saldo: {activePlayer.coins} mynter</p>
-            <div>
+            <div className="player-info">
+              <p>Spiller:</p>
+              <p>{activePlayer.name}</p>
+              <p>{activePlayer.coins} mynter</p>
+            </div>
+
+            <div className="bets-controller">
               <p>
                 Innsats: {betAmount} {betAmount === 1 ? "mynt" : "mynter"}
               </p>
 
-              {[1, 2, 3, 4, 5].map((amount) => (
-                <button
-                  key={amount}
-                  type="button"
-                  onClick={() => setBetAmount(amount)}
-                  disabled={isRoundInProgress || activePlayer.coins < amount}
-                >
-                  {amount}
-                </button>
-              ))}
+              <div className="bet-buttons">
+                {[1, 2, 3, 4, 5].map((amount) => (
+                  <button
+                    key={amount}
+                    type="button"
+                    onClick={() => setBetAmount(amount)}
+                    disabled={isRoundInProgress || activePlayer.coins < amount}
+                  >
+                    {amount}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={startRound}
+                disabled={activePlayer.coins < betAmount || isRoundInProgress}
+              >
+                {hasHand ? "Start ny runde" : "Start runde"}
+              </button>
             </div>
           </>
         ) : (
-          <p>Velg eller opprett en spiller.</p>
+          <>
+            <p>
+              Velg eller <Link to="/players">opprett en spiller.</Link>
+            </p>
+            <ul>
+              {players.map((player) => (
+                <li key={player.id}>
+                  <button
+                    type="button"
+                    onClick={() => selectPlayer(player.id)}
+                    aria-pressed={player.id === activePlayerId}
+                  >
+                    {player.name} - {player.coins} mynter
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </>
         )}
-        <button
-          type="button"
-          onClick={startRound}
-          disabled={!activePlayer || activePlayer.coins < betAmount || isRoundInProgress}
-        >
-          {hasHand ? "Start ny runde" : "Start runde"}
-        </button>
+
         <p>Utdelt hånd</p>
 
         {hasHand ? (
@@ -70,11 +103,12 @@ export default function GamePage() {
               return (
                 <li key={`${card.suit}-${card.rank}-${index}`}>
                   <button
+                    className={`playing-card ${isHeld ? "playing-card-held" : ""}`}
                     type="button"
                     onClick={() => toggleHeldCard(index)}
                     disabled={hasDrawn}
                   >
-                    {card.rank} {card.suit} {isHeld ? "(beholdes)" : ""}
+                    {card.rank} {suitSymbols[card.suit]}
                   </button>
                 </li>
               );
@@ -83,8 +117,6 @@ export default function GamePage() {
         ) : (
           <p> Klikk "Start runde" for å starte.</p>
         )}
-
-        <p>Kort som er igjen: {deck.length}</p>
 
         {hasHand && !hasDrawn && (
           <button type="button" onClick={drawNewCards}>
@@ -103,6 +135,7 @@ export default function GamePage() {
             <p>Runden er ferdig. Klikk start ny runde for å spille igjen.</p>
           </>
         )}
+        {activePlayer && <PayoutTable betAmount={betAmount} />}
       </div>
     </div>
   );
