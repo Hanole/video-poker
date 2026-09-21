@@ -53,7 +53,7 @@ export default function GamePage() {
 
               <div className="bet-buttons">
                 {[1, 2, 3, 4, 5].map((amount) => (
-                  <button
+                  <button className="control-buttons"
                     key={amount}
                     type="button"
                     onClick={() => setBetAmount(amount)}
@@ -64,7 +64,7 @@ export default function GamePage() {
                 ))}
               </div>
 
-              <button
+              <button className="control-buttons"
                 type="button"
                 onClick={startRound}
                 disabled={activePlayer.coins < betAmount || isRoundInProgress}
@@ -81,7 +81,7 @@ export default function GamePage() {
             <ul>
               {players.map((player) => (
                 <li key={player.id}>
-                  <button
+                  <button className="control-buttons"
                     type="button"
                     onClick={() => selectPlayer(player.id)}
                     aria-pressed={player.id === activePlayerId}
@@ -102,7 +102,7 @@ export default function GamePage() {
               const isHeld = heldCardIndexes.includes(index);
               return (
                 <li key={`${card.suit}-${card.rank}-${index}`}>
-                  <button
+                  <button 
                     className={`playing-card ${isHeld ? "playing-card-held" : ""}`}
                     type="button"
                     onClick={() => toggleHeldCard(index)}
@@ -119,7 +119,7 @@ export default function GamePage() {
         )}
 
         {hasHand && !hasDrawn && (
-          <button type="button" onClick={drawNewCards}>
+          <button className="control-buttons" type="button" onClick={drawNewCards}>
             Trekk nye kort
           </button>
         )}

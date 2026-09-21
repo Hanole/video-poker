@@ -6,7 +6,7 @@ export default function App() {
 
   return (
     <>
-      <nav>
+      <nav className='navigation-bar'>
         <Link to="/">Spill</Link>
         <Link to="/players">Players</Link>
         <Link to="/rules">Rules</Link>
