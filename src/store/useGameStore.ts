@@ -76,6 +76,8 @@ export const useGameStore = create<GameStore>()(
         set({ activePlayerId: playerId });
       },
 
+
+      // starter en ny runde, trekker innsatsen og deler ut fem kort. samt nullstiller status.
       startRound: () => {
         set((state) => {
           const activePlayer = state.players.find(

@@ -13,7 +13,6 @@ const suitSymbols = {
 export default function GamePage() {
   const startRound = useGameStore((state) => state.startRound);
   const hand = useGameStore((state) => state.hand);
-  const deck = useGameStore((state) => state.deck);
 
   const drawNewCards = useGameStore((state) => state.drawNewCards);
 
