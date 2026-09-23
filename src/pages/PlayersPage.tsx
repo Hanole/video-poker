@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useGameStore } from "../store/useGameStore";
 import { Link } from "react-router";
 
+import "./../styles/PlayersPage.css";
+
 export default function PlayersPage() {
   const [name, setName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -35,51 +37,53 @@ export default function PlayersPage() {
   }
 
   return (
-    <main>
-      <h1>Spillbrukere</h1>
-      {activePlayer ? (
-        <p>
-          Aktiv spiller: {activePlayer.name} ({activePlayer.coins} coins)
-        </p>
-      ) : (
-        <p>Velg en eksisterende spiller eller opprett en nyn spiller.</p>
-      )}
-      <form onSubmit={handleCreatePlayer}>
-        <label htmlFor="player-name">Navn på ny spiller</label>
-        <input
-          id="player-name"
-          type="text"
-          value={name}
-          onChange={(event) => {
-            setName(event.target.value);
-            setErrorMessage("");
-          }}
-          required
-        />
-        <button type="submit">Opprett spiller</button>
-      </form>
-      {errorMessage && <p role="alert">{errorMessage}</p>}
+    <main className="players-page-container">
+      <div className="players-page-div">
+        <h1>Spillbrukere</h1>
+        {activePlayer ? (
+          <p>
+            Aktiv spiller: {activePlayer.name} ({activePlayer.coins} coins)
+          </p>
+        ) : (
+          <p>Velg en eksisterende spiller eller opprett en nyn spiller.</p>
+        )}
+        <form onSubmit={handleCreatePlayer} className="create-player-form">
+          <label htmlFor="player-name">Navn på ny spiller</label>
+          <input
+            id="player-name"
+            type="text"
+            value={name}
+            onChange={(event) => {
+              setName(event.target.value);
+              setErrorMessage("");
+            }}
+            required
+          />
+          <button type="submit">Opprett spiller</button>
+        </form>
+        {errorMessage && <p role="alert">{errorMessage}</p>}
 
-      <h2>Eksisterende spillere</h2>
-      {players.length === 0 ? (
-        <p>Ingen spillere</p>
-      ) : (
-        <ul>
-          {players.map((player) => (
-            <li key={player.id}>
-              <button
-                type="button"
-                onClick={() => selectPlayer(player.id)}
-                aria-pressed={player.id === activePlayerId}
-              >
-                {player.name} - {player.coins} mynter
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+        <h2>Eksisterende spillere</h2>
+        {players.length === 0 ? (
+          <p>Ingen spillere</p>
+        ) : (
+          <ul className="player-list">
+            {players.map((player) => (
+              <li key={player.id}>
+                <button
+                  type="button"
+                  onClick={() => selectPlayer(player.id)}
+                  aria-pressed={player.id === activePlayerId}
+                >
+                  {player.name} ${player.coins}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
 
-      <Link to="/">Gå tilbake til spillet</Link>
+        <Link to="/">Gå tilbake til spillet</Link>
+      </div>
     </main>
   );
 }

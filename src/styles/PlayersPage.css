@@ -1,0 +1,92 @@
+.players-page-container {
+
+    min-height: 85vh;
+    padding: 1.5rem;
+    background-color: #fdf0d5;
+
+}
+
+.players-page-div {
+    display: grid;
+    justify-content: center;
+    width: min(100%, 760px);
+    margin: 0 auto;
+    padding: 1.5rem;
+    text-align: center;
+    background-color: #003049;
+    border-radius: 20px;
+    gap: 2rem;
+    box-shadow: 4px 4px 8px  rgb(0, 0, 0, 0.25);
+
+}
+
+.create-player-form {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 20rem;
+  padding: 1.25rem;
+  border-radius: 8px;
+  background-color: #fdf0d5;;
+  box-shadow: 2px 2px 2px  rgb(0, 0, 0, 0.25);
+}
+
+
+.create-player-form input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid #7a7a7a;
+  border-radius: 8px;
+
+}
+.create-player-form label {
+    font-weight: 500;
+}
+
+.create-player-form input:focus {
+  outline: 3px solid #7800004c;
+  border-color: #c1121f;
+}
+
+.create-player-form button {
+  padding: 0.5rem 0.75rem;
+  border: 0;
+  border-radius: 8px;
+  background-color: #780000;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.create-player-form button:hover {
+  background-color: #c1121f;
+}
+
+.player-list {
+    list-style-type: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+
+}
+
+.player-list button {
+    padding: 0.5rem 0.75rem;
+    width: 9rem;
+    height: 3rem;
+    border: 0;
+    border-radius: 8px;
+    background-color: #669bbc;
+    font: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.player-list button:hover {
+    background-color: #64b2e3;
+} 
+
+.players-page-div h1, h2, p, a {
+    color: #fdf0d5;
+}

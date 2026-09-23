@@ -114,10 +114,12 @@ export const useGameStore = create<GameStore>()(
         })
       },
 
+      // sjekker om kortets index finnes i heldCardIndexes
       toggleHeldCard: (cardIndex) => {
         set((state) => {
           const isHeld = state.heldCardIndexes.includes(cardIndex);
 
+          // kortet er holdt fra før, index fjernes
           if (isHeld) {
             return {
               heldCardIndexes: state.heldCardIndexes.filter(
@@ -126,18 +128,22 @@ export const useGameStore = create<GameStore>()(
             };
           }
 
+          // kortet er ikke holdt fra før, index legges til
           return {
             heldCardIndexes: [...state.heldCardIndexes, cardIndex],
           };
         });
       },
 
+      // gjennomfører rundens eneste draw og oppdaterer hånd, resultat og gevinst
       drawNewCards: () => {
         set((state) => {
+          // sikkerhetstiltak slik at man ikke draw uten hånd eller gjøre flere draws i samme runde
           if (state.hasDrawn || state.hand.length === 0) {
             return {};
           }
 
+          // filtrere kort som ikke er valgt som hodlt
           const discardedCards = state.hand.filter(
             (_, index) => !state.heldCardIndexes.includes(index),
           );
@@ -149,6 +155,7 @@ export const useGameStore = create<GameStore>()(
 
           let newCardIndex = 0;
 
+          //beholder valgte kort på samme plass og erstatter resten
           const updatedHand = state.hand.map((card, index) => {
             const isHeld = state.heldCardIndexes.includes(index);
 
@@ -166,6 +173,7 @@ export const useGameStore = create<GameStore>()(
           const payoutMultiplier = payouts[handResult];
           const lastPayout = state.betAmount * payoutMultiplier;
 
+          // evt gevinst til aktiv spiller
           const updatedPlayers = state.players.map((player) => {
             if (player.id !== state.activePlayerId) {
               return player;
