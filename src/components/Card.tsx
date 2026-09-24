@@ -16,6 +16,11 @@ const suitSymbols = {
 };
 
 export function Card({ card, isHeld, disabled, onClick, isFaceDown = false, }: CardProps) {
+  if(isFaceDown) {
+    return (
+      <div className="playing-card playing-card-backside"/>
+    )
+  }
   return (
     <button
       className={`playing-card ${isHeld ? "playing-card-held" : ""}`}
@@ -24,7 +29,9 @@ export function Card({ card, isHeld, disabled, onClick, isFaceDown = false, }: C
       disabled={disabled}
       aria-pressed={isHeld}
     >
-      {card.rank} {suitSymbols[card.suit]}
+      <span className="card-corner card-corner-top">{card.rank} {suitSymbols[card.suit]}</span>
+      <span className="card-suit">{suitSymbols[card.suit]}</span>
+      <span className="card-corner card-corner-bottom">{card.rank} {suitSymbols[card.suit]}</span>
     </button>
   );
 }

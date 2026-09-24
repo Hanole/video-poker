@@ -126,14 +126,20 @@
 
 .playing-card {
   display: grid;
-  place-items: center;
+  grid-template-areas:
+  "top top"
+  "center center"
+  "bottom bottom";
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+
   width: 6rem;
-  min-height: 8rem;
-  padding: 1rem;
+  aspect-ratio: 2 / 3;
+  padding: 0.5rem;
+
   border: 2px solid #669bbc;
-  border-radius: 10px;
+  border-radius: 8px;
   background: #ffffff;
-  /* color: #003049; */
   box-shadow: 0 4px 10px rgb(0 0 0 / 20%);
   cursor: pointer;
   font-size: 1.4rem;
@@ -156,5 +162,43 @@
 }
 
 .playing-card:disabled {
+  cursor: default;
+}
+
+
+.card-corner {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.card-corner-top {
+  grid-area: top;
+  justify-self: start;
+  align-self: start;
+}
+
+.card-suit {
+  grid-area: center;
+  justify-self: center;
+  align-self: center;
+  font-size: 2rem;
+}
+
+.card-corner-bottom {
+  grid-area: bottom;
+  justify-self: end;
+  align-self: end;
+  transform: rotate(180deg);
+}
+
+.playing-card-backside {
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #003049,
+      #003049 0.5rem,
+      #669bbc 0.5rem,
+      #669bbc 1rem
+    );
   cursor: default;
 }
