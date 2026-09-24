@@ -5,13 +5,7 @@ import { Link } from "react-router";
 import { TotalCoins } from "../components/TotalCoins";
 import { CurrentBet } from "../components/CurrentBet";
 import { CurrentHand } from "../components/CurrentHand";
-
-const suitSymbols = {
-  hearts: "♥",
-  diamonds: "♦",
-  clubs: "♣",
-  spades: "♠",
-};
+import { Card } from "../components/Card";
 
 export default function GamePage() {
   const startRound = useGameStore((state) => state.startRound);
@@ -105,14 +99,12 @@ export default function GamePage() {
               const isHeld = heldCardIndexes.includes(index);
               return (
                 <li key={`${card.suit}-${card.rank}-${index}`}>
-                  <button
-                    className={`playing-card ${isHeld ? "playing-card-held" : ""}`}
-                    type="button"
-                    onClick={() => toggleHeldCard(index)}
+                  <Card
+                    card={card}
+                    isHeld={isHeld}
                     disabled={hasDrawn}
-                  >
-                    {card.rank} {suitSymbols[card.suit]}
-                  </button>
+                    onClick={() => toggleHeldCard(index)}
+                  />
                 </li>
               );
             })}

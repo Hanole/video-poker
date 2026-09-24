@@ -5,7 +5,7 @@ import type { PlayingCard } from "../types/card.type";
 import { createDeck } from "../utils/createDeck";
 import { shuffleDeck } from "../utils/shuffleDeck";
 
-import { evaluateHand, type HandResult, } from "../utils/evaluateHand";
+import { evaluateHand, type HandResult } from "../utils/evaluateHand";
 import { payouts } from "../utils/payouts";
 
 type GameStore = {
@@ -45,19 +45,16 @@ export const useGameStore = create<GameStore>()(
 
       setBetAmount: (amount) => {
         set((state) => {
-          if(state.hand.length > 0 && !state.hasDrawn) {
+          if (state.hand.length > 0 && !state.hasDrawn) {
             return {};
           }
 
           const maxiumBet = 5;
-          const validAmount = Math.min(
-            Math.max(amount, 1),
-            maxiumBet,
-          );
+          const validAmount = Math.min(Math.max(amount, 1), maxiumBet);
           return {
             betAmount: validAmount,
-          }
-        })
+          };
+        });
       },
 
       createPlayer: (name: string) => {
@@ -75,7 +72,6 @@ export const useGameStore = create<GameStore>()(
       selectPlayer: (playerId) => {
         set({ activePlayerId: playerId });
       },
-
 
       // starter en ny runde, trekker innsatsen og deler ut fem kort. samt nullstiller status.
       startRound: () => {
@@ -97,8 +93,9 @@ export const useGameStore = create<GameStore>()(
               return player;
             }
             return {
-              ...player, coins: player.coins - state.betAmount,
-            }
+              ...player,
+              coins: player.coins - state.betAmount,
+            };
           });
 
           return {
@@ -111,7 +108,7 @@ export const useGameStore = create<GameStore>()(
             handResult: null,
             lastPayout: 0,
           };
-        })
+        });
       },
 
       // sjekker om kortets index finnes i heldCardIndexes
@@ -147,10 +144,10 @@ export const useGameStore = create<GameStore>()(
           const discardedCards = state.hand.filter(
             (_, index) => !state.heldCardIndexes.includes(index),
           );
-          
+
           const numberOfNewCards = discardedCards.length;
 
-          const newCards = state.deck.slice(0, numberOfNewCards)
+          const newCards = state.deck.slice(0, numberOfNewCards);
           const remainingDeck = state.deck.slice(numberOfNewCards);
 
           let newCardIndex = 0;
@@ -166,7 +163,7 @@ export const useGameStore = create<GameStore>()(
             const newCard = newCards[newCardIndex];
             newCardIndex += 1;
             return newCard;
-          })
+          });
 
           const handResult = evaluateHand(updatedHand);
 
@@ -179,9 +176,10 @@ export const useGameStore = create<GameStore>()(
               return player;
             }
             return {
-              ...player, coins: player.coins + lastPayout,
-            }
-          })
+              ...player,
+              coins: player.coins + lastPayout,
+            };
+          });
 
           return {
             players: updatedPlayers,
@@ -192,8 +190,8 @@ export const useGameStore = create<GameStore>()(
             hasDrawn: true,
             handResult,
             lastPayout,
-          }
-        })
+          };
+        });
       },
     }),
     {
@@ -201,6 +199,15 @@ export const useGameStore = create<GameStore>()(
       partialize: (state) => ({
         players: state.players,
         activePlayerId: state.activePlayerId,
+        deck: state.deck,
+        hand: state.hand,
+        discardedCards: state.discardedCards,
+        heldCardIndexes: state.heldCardIndexes,
+
+        betAmount: state.betAmount,
+        hasDrawn: state.hasDrawn,
+        handResult: state.handResult,
+        lastPayout: state.lastPayout,
       }),
     },
   ),
