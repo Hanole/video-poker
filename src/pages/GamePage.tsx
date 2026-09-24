@@ -2,6 +2,9 @@ import { useGameStore } from "../store/useGameStore";
 import "./../styles/GamePage.css";
 import { PayoutTable } from "../components/PayoutTable";
 import { Link } from "react-router";
+import { TotalCoins } from "../components/TotalCoins";
+import { CurrentBet } from "../components/CurrentBet";
+import { CurrentHand } from "../components/CurrentHand";
 
 const suitSymbols = {
   hearts: "♥",
@@ -42,17 +45,16 @@ export default function GamePage() {
             <div className="player-info">
               <p>Spiller:</p>
               <p>{activePlayer.name}</p>
-              <p>{activePlayer.coins} mynter</p>
+              <TotalCoins coins={activePlayer.coins} />
             </div>
 
             <div className="bets-controller">
-              <p>
-                Innsats: {betAmount} {betAmount === 1 ? "mynt" : "mynter"}
-              </p>
+              <CurrentBet betAmount={betAmount} />
 
               <div className="bet-buttons">
                 {[1, 2, 3, 4, 5].map((amount) => (
-                  <button className="control-buttons"
+                  <button
+                    className="control-buttons"
                     key={amount}
                     type="button"
                     onClick={() => setBetAmount(amount)}
@@ -63,7 +65,8 @@ export default function GamePage() {
                 ))}
               </div>
 
-              <button className="control-buttons"
+              <button
+                className="control-buttons"
                 type="button"
                 onClick={startRound}
                 disabled={activePlayer.coins < betAmount || isRoundInProgress}
@@ -80,7 +83,8 @@ export default function GamePage() {
             <ul>
               {players.map((player) => (
                 <li key={player.id}>
-                  <button className="control-buttons"
+                  <button
+                    className="control-buttons"
                     type="button"
                     onClick={() => selectPlayer(player.id)}
                     aria-pressed={player.id === activePlayerId}
@@ -101,7 +105,7 @@ export default function GamePage() {
               const isHeld = heldCardIndexes.includes(index);
               return (
                 <li key={`${card.suit}-${card.rank}-${index}`}>
-                  <button 
+                  <button
                     className={`playing-card ${isHeld ? "playing-card-held" : ""}`}
                     type="button"
                     onClick={() => toggleHeldCard(index)}
@@ -118,19 +122,19 @@ export default function GamePage() {
         )}
 
         {hasHand && !hasDrawn && (
-          <button className="control-buttons" type="button" onClick={drawNewCards}>
+          <button
+            className="control-buttons"
+            type="button"
+            onClick={drawNewCards}
+          >
             Trekk nye kort
           </button>
         )}
 
         {hasHand && hasDrawn && (
           <>
-            <p>Resultat: {handResult}</p>
-            {lastPayout > 0 ? (
-              <p>Du vant {lastPayout} mynter!</p>
-            ) : (
-              <p>Ingen gevinst</p>
-            )}
+            <CurrentHand handResult={handResult} />
+            {lastPayout > 0 && <p>Du vant {lastPayout} mynter!</p>}
             <p>Runden er ferdig. Klikk start ny runde for å spille igjen.</p>
           </>
         )}
