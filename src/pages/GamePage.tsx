@@ -1,5 +1,10 @@
+import "./../styles/GamePage.css";
+import { Game } from "../components/Game";
+
 export default function GamePage() {
-    return (
-        <h2>Video-poker</h2>
-    )
+  return (
+    <main className="game-page-container">
+      <Game />
+    </main>
+  );
 }
